@@ -10,12 +10,26 @@ func main() {
 
 	v1 := router.Group("/api/v1")
 	{
-		userHandlerV1 := v1handler.NewUserHandler()
-		v1.GET("/users", userHandlerV1.GetUsers)
-		v1.GET("/users/:id", userHandlerV1.GetUser)
-		v1.POST("/users", userHandlerV1.CreateUser)
-		v1.PUT("/users/:id", userHandlerV1.UpdateUser)
-		v1.DELETE("/users/:id", userHandlerV1.DeleteUser)
+		users := v1.Group("/users")
+		{
+			userHandlerV1 := v1handler.NewUserHandler()
+			users.GET("", userHandlerV1.GetUsers)
+			users.GET("/:id", userHandlerV1.GetUser)
+			users.POST("", userHandlerV1.CreateUser)
+			users.PUT("/:id", userHandlerV1.UpdateUser)
+			users.DELETE("/:id", userHandlerV1.DeleteUser)
+		}
+
+		products := v1.Group("/products")
+		{
+			productHandlerV1 := v1handler.NewProductHandler()
+			products.GET("", productHandlerV1.GetProducts)
+			products.GET("/:id", productHandlerV1.GetProduct)
+			products.POST("", productHandlerV1.CreateProduct)
+			products.PUT("/:id", productHandlerV1.UpdateProduct)
+			products.DELETE("/:id", productHandlerV1.DeleteProduct)
+		}
+
 	}
 
 	router.Run(":8080") // listen and serve on 0.0.0.0:8080
