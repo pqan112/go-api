@@ -4,9 +4,14 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
+	"pqan.com/go-api/utils"
 )
 
 type ProductHandler struct{}
+
+type GetProductParam struct {
+	ID int `uri:"id" binding:"gt=0"`
+}
 
 func NewProductHandler() *ProductHandler {
 	return &ProductHandler{}
@@ -19,6 +24,13 @@ func (u *ProductHandler) GetProducts(c *gin.Context) {
 }
 
 func (u *ProductHandler) GetProduct(c *gin.Context) {
+	var params GetProductParam
+	if err := c.ShouldBindUri(&params); err != nil {
+		message := "Error.Invalid_Param"
+		c.JSON(http.StatusBadRequest, utils.HandleValidationErrors(err, &message))
+		return
+	}
+
 	limit := c.DefaultQuery("limit", "10")
 
 	c.JSON(http.StatusOK, gin.H{
