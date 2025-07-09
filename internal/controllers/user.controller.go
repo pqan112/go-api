@@ -1,6 +1,8 @@
 package controllers
 
 import (
+	"log"
+
 	"github.com/gin-gonic/gin"
 	"pqan.com/go-api/internal/services"
 )
@@ -17,5 +19,6 @@ func NewUserController(service *services.UserService) *UserController {
 
 func (uc *UserController) GetUsers(ctx *gin.Context) {
 	// ctx.JSON(http.StatusOK, gin.H{"message": uc.service.GetUsers})
+	log.Print("aa")
 	uc.service.GetUsers()
 }
