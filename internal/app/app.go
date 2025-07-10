@@ -1,9 +1,12 @@
 package app
 
 import (
+	"log"
+
 	"github.com/gin-gonic/gin"
 	"pqan.com/go-api/internal/config"
 	"pqan.com/go-api/internal/routes"
+	"pqan.com/go-api/internal/validation"
 )
 
 type Module interface {
@@ -16,6 +19,10 @@ type Application struct {
 }
 
 func NewApplication(cfg *config.Config) *Application {
+	if err := validation.InitValidator(); err != nil {
+		log.Fatalf("Validator init failed %v", err)
+	}
+
 	r := gin.Default()
 
 	modules := []Module{

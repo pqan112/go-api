@@ -6,6 +6,6 @@ type Config struct {
 
 func NewConfig() *Config {
 	return &Config{
-		ServerAddress: ":7000",
+		ServerAddress: ":4000",
 	}
 }
